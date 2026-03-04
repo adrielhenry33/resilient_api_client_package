@@ -1,5 +1,5 @@
 name: resilient_client_api
-description: A starting point for Dart libraries or applications.
+description: Um wrapper HTTP em Dart focado em resiliência, retries e timeouts.
 version: 1.0.0
 # repository: https://github.com/my_org/my_repo
 
@@ -8,7 +8,8 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
-  # path: ^1.9.0
+  http: ^1.6.0
+  meta: ^1.18.1  # path: ^1.9.0
 
 dev_dependencies:
   lints: ^6.0.0
