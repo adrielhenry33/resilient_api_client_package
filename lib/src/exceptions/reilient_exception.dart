@@ -1,4 +1,4 @@
-/// Classe base abstrata para todas as execções do [ResilientApiClient]
+/// Classe base abstrata para todas as exceções do [ResilientApiClient]
 ///
 /// Ao herdar de [Exception], garantimos que o erro possa ser capturado
 ///em blocos try-catch espcíficos.
