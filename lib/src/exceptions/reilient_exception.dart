@@ -18,14 +18,13 @@ abstract class ResilientException implements Exception {
 
 /// Lançada quando o número máximo de tentativas (retries) é esgotado.
 class RetryLimitExceededException extends ResilientException {
-  RetryLimitExceededException(String message, [int? statusCode])
-    : super(message, statusCode);
+  RetryLimitExceededException(super.message, [super.statusCode]);
 }
 
 /// Lançada quando o servidor retorna um erro de status (ex.: 4xx , 5xx)
 class ResilientStatusException extends ResilientException {
   final String? responsyBody;
 
-  ResilientStatusException(String message, int statusCode, {this.responsyBody})
-    : super(message, statusCode);
+  ResilientStatusException(super.message,super.statusCode, {this.responsyBody});
+    
 }
