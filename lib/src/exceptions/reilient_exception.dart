@@ -25,6 +25,10 @@ class RetryLimitExceededException extends ResilientException {
 class ResilientStatusException extends ResilientException {
   final String? responsyBody;
 
-  ResilientStatusException(super.message,super.statusCode, {this.responsyBody});
-    
+
+  ResilientStatusException(
+    super.message,
+    super.statusCode, {
+    this.responsyBody,
+  });
 }
