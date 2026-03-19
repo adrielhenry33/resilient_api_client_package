@@ -5,7 +5,7 @@
 
 library;
 
-abstract class ResilientException implements Exception {
+ class ResilientException implements Exception {
   final String message;
 
   final int? statusCode;
@@ -13,7 +13,7 @@ abstract class ResilientException implements Exception {
   ResilientException(this.message, [this.statusCode]);
 
   @override
-  String toString() => '$runtimeType: $message (Status: $statusCode)';
+  String toString() => '$runtimeType: $message (Statusa $statusCode)';
 }
 
 /// Lançada quando o número máximo de tentativas (retries) é esgotado.
