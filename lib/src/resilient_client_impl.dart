@@ -51,8 +51,10 @@ class IResilientClientImpl implements ResilientClassInterface {
     required T Function(String) decoder,
     Map<String, String>? headers,
   }) async {
-    // TODO: implement getTyped
-    throw UnimplementedError();
+    
+    final response = await get(url, headers: headers);
+    return  decoder(response.body);
+
   }
 
   @override
