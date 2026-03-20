@@ -29,4 +29,5 @@ abstract class ResilientClassInterface {
     Map<String, String>? headers,
     Object? body,
   });
+
 }

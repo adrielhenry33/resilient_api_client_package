@@ -51,10 +51,8 @@ class IResilientClientImpl implements ResilientClassInterface {
     required T Function(String) decoder,
     Map<String, String>? headers,
   }) async {
-    
     final response = await get(url, headers: headers);
-    return  decoder(response.body);
-
+    return decoder(response.body);
   }
 
   @override
@@ -65,5 +63,11 @@ class IResilientClientImpl implements ResilientClassInterface {
   }) {
     // TODO: implement post
     throw UnimplementedError();
+  }
+
+  Future<http.Response> _sendWithRetry(
+    Future<http.Response> Function() action,
+  ) async {
+    
   }
 }
