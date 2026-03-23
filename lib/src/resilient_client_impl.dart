@@ -14,35 +14,7 @@ class IResilientClientImpl implements ResilientClassInterface {
 
   @override
   Future<http.Response> get(String url, {Map<String, String>? headers}) async {
-    int tentativas = 0;
-    final Map<String, String> activeHeaders = headers ?? {};
-
-    while (tentativas < options.maxRetries) {
-      try {
-        tentativas++;
-
-        final result = await _client
-            .get(Uri.parse(url), headers: activeHeaders)
-            .timeout(options.timeout);
-
-        if (result.statusCode < 400) return result;
-
-        throw ResilientStatusException(
-          'Erro de statuss: ${result.statusCode}',
-          result.statusCode,
-          responsyBody: result.body,
-        );
-      } catch (e) {
-        if (tentativas >= options.maxRetries) {
-          if (e is ResilientStatusException) rethrow;
-          throw RetryLimitExceededException(
-            'Falha após $tentativas. Último erro: $e',
-          );
-        }
-        await Future.delayed(options.retryDelay);
-      }
-    }
-    throw ResilientException('Falha inesperada no fluxo de repetição');
+    return _sendWithRetry(() => _client.get(Uri.parse(url), headers: headers));
   }
 
   @override
@@ -61,13 +33,33 @@ class IResilientClientImpl implements ResilientClassInterface {
     Map<String, String>? headers,
     Object? body,
   }) {
-    // TODO: implement post
-    throw UnimplementedError();
+    return _sendWithRetry(() => _client.post(Uri.parse(url), headers: headers));
   }
 
   Future<http.Response> _sendWithRetry(
     Future<http.Response> Function() action,
   ) async {
-    
+    int tentativas = 0;
+
+    while (tentativas < options.maxRetries) {
+      try {
+        tentativas++;
+        final response = await action().timeout(options.timeout);
+        if (response.statusCode < 400) return response;
+
+        throw ResilientStatusException(
+          'Erro ${response.statusCode}',
+          response.statusCode,
+          responsyBody: response.body,
+        );
+      } catch (e) {
+        if (tentativas >= options.maxRetries) {
+          if (e is ResilientStatusException) rethrow;
+          throw RetryLimitExceededException('Limite de Retrys atingido');
+        }
+        await Future.delayed(options.retryDelay);
+      }
+    }
+    throw ResilientException('Falha inesperada no fluxo de repetição');
   }
 }
