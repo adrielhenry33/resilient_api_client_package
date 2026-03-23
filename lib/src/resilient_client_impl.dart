@@ -33,7 +33,9 @@ class IResilientClientImpl implements ResilientClassInterface {
     Map<String, String>? headers,
     Object? body,
   }) {
-    return _sendWithRetry(() => _client.post(Uri.parse(url), headers: headers));
+    return _sendWithRetry(
+      () => _client.post(Uri.parse(url), headers: headers, body: body),
+    );
   }
 
   Future<http.Response> _sendWithRetry(
