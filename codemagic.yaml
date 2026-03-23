@@ -1,0 +1,17 @@
+# Configuração de CI/CD para o Resilient API Client
+workflows:
+  dart-package-workflow:
+    name: Dart Package CI
+    max_build_duration: 10
+    instance_type: mac_mini_m1 # Ou linux se preferir
+    triggering:
+      events:
+        - push
+        - pull_request
+    scripts:
+      - name: Get dependencies
+        script: dart pub get
+      - name: Static analysis
+        script: dart analyze .
+      - name: Run Tests (TDD Validation)
+        script: dart test test/resilient_client_test.dart
